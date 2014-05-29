@@ -25,117 +25,75 @@ By default, we add name the parameter to mongoose model.
 
 Model example:
 
-`'use strict';
-var mongoose = require('mongoose')
-    , Schema = mongoose.Schema
-    ;
+    'use strict';
+    var mongoose = require('mongoose')
+        , Schema = mongoose.Schema
+        ;
 
-var usersSchema = new Schema({
-    name: String,
-    email: String,
-    age: Number
-});
+    var usersSchema = new Schema({
+        name: String,
+        email: String,
+        age: Number
+    });
 
-module.exports = mongoose.model('users', usersSchema);`
+    module.exports = mongoose.model('users', usersSchema);`
 
 ## Controllers generator
 
 The controller generated will export an express4 Router setup for the rest route. It will look like this:
 
-`var users = express.Router();
-var Model = require('../models/model-users.js')
+    var users = express.Router();
+    var Model = require('../models/model-users.js')
 
-users.get('/', function(req, res) {
-    Model.find(function(err, list){
-        if(req.accepts('json')) {
-            if(err) {
-                return res.json(500, {
-                    message: 'Error getting users.'
-                });
+    users.get('/', function(req, res) {
+        Model.find(function(err, list){
+            if(req.accepts('json')) {
+                if(err) {
+                    return res.json(500, {
+                        message: 'Error getting users.'
+                    });
+                }
+                return res.json(list);
+            } else {
+                if(err) {
+                    return res.send('500: Internal Server Error', 500);
+                }
+                return res.render('users/index', {users: users});
             }
-            return res.json(list);
-        } else {
-            if(err) {
-                return res.send('500: Internal Server Error', 500);
-            }
-            return res.render('users/index', {users: users});
-        }
+        });
     });
-});
 
-users.post('/', function(req, res) {
-    var user = new Model({
-        name: req.body.name,
-        email: req.body.email,
-        age: req.body.age
-    });
-    user.save(function(err, user){
-        if(req.accepts('json')) {
-            if(err) {
-                return res.json(500, {
-                    message: 'Error saving user',
-                    error: err
+    users.post('/', function(req, res) {
+        var user = new Model({
+            name: req.body.name,
+            email: req.body.email,
+            age: req.body.age
+        });
+        user.save(function(err, user){
+            if(req.accepts('json')) {
+                if(err) {
+                    return res.json(500, {
+                        message: 'Error saving user',
+                        error: err
+                    });
+                }
+                return res.json({
+                    message: 'saved',
+                    _id: user._id
                 });
+            } else {
+                if(err) {
+                    return res.send('500: Internal Server Error', 500);
+                }
+                return res.render('users/edit', {user: user});
             }
-            return res.json({
-                message: 'saved',
-                _id: user._id
-            });
-        } else {
-            if(err) {
-                return res.send('500: Internal Server Error', 500);
-            }
-            return res.render('users/edit', {user: user});
-        }
+        });
     });
-});
 
-users.get('/:id', function(req, res) {
-    var id = req.params.id;
-    Model.findOne({_id: id}, function(err, user){
-        if(req.accepts('json')) {
-            if(err) {
-                return res.json(500, {
-                    message: 'Error getting user.'
-                });
-            }
-            if(!user) {
-                return res.json(404, {
-                    message: 'No such user'
-                });
-            }
-            return res.json(user);
-        } else {
-            if(err) {
-                return res.send('500: Internal Server Error', 500);
-            }
-            if(!user) {
-                return res.end('No such user');
-            }
-            return res.render('users/edit', {user: user, flash: 'Created.'});
-        }
-    });
-});
-
-users.put('/:id', function(req, res) {
-    var id = req.params.id;
-    Model.findOne({_id: id}, function(err, user){
-        if(req.accepts('json')) {
-            if(err) {
-                return res.json(500, {
-                    message: 'Error saving user',
-                    error: err
-                });
-            }
-            if(!user) {
-                return res.json(404, {
-                    message: 'No such user'
-                });
-            }
-            user.name = req.body.name ? req.body.name : user.name;
-            user.email = req.body.email ? req.body.email : user.email;
-            user.age = req.body.age ? req.body.age : user.age;
-            user.save(function(err, user){
+    users.get('/:id', function(req, res) {
+        var id = req.params.id;
+        Model.findOne({_id: id}, function(err, user){
+            if(req.accepts('json')) {
                 if(err) {
                     return res.json(500, {
                         message: 'Error getting user.'
@@ -147,57 +105,99 @@ users.put('/:id', function(req, res) {
                     });
                 }
                 return res.json(user);
-            });
-        } else {
-            if(err) {
-                return res.send('500: Internal Server Error', 500);
-            }
-            if(!user) {
-                return res.end('No such user');
-            }
-            user.name = req.body.name ? req.body.name : user.name;
-            user.email = req.body.email ? req.body.email : user.email;
-            user.age = req.body.age ? req.body.age : user.age;
-            user.save(function(err, user){
+            } else {
                 if(err) {
                     return res.send('500: Internal Server Error', 500);
                 }
                 if(!user) {
                     return res.end('No such user');
                 }
-                return res.render('users/edit', {user: user, flash: 'Saved.'});
-            });
-        }
+                return res.render('users/edit', {user: user, flash: 'Created.'});
+            }
+        });
     });
-});
 
-users.delete('/:id', function(req, res) {
-    var id = req.params.id;
-    Model.findOne({_id: id}, function(err, user){
-        if(req.accepts('json')) {
-            if(err) {
-                return res.json(500, {
-                    message: 'Error getting user.'
+    users.put('/:id', function(req, res) {
+        var id = req.params.id;
+        Model.findOne({_id: id}, function(err, user){
+            if(req.accepts('json')) {
+                if(err) {
+                    return res.json(500, {
+                        message: 'Error saving user',
+                        error: err
+                    });
+                }
+                if(!user) {
+                    return res.json(404, {
+                        message: 'No such user'
+                    });
+                }
+                user.name = req.body.name ? req.body.name : user.name;
+                user.email = req.body.email ? req.body.email : user.email;
+                user.age = req.body.age ? req.body.age : user.age;
+                user.save(function(err, user){
+                    if(err) {
+                        return res.json(500, {
+                            message: 'Error getting user.'
+                        });
+                    }
+                    if(!user) {
+                        return res.json(404, {
+                            message: 'No such user'
+                        });
+                    }
+                    return res.json(user);
+                });
+            } else {
+                if(err) {
+                    return res.send('500: Internal Server Error', 500);
+                }
+                if(!user) {
+                    return res.end('No such user');
+                }
+                user.name = req.body.name ? req.body.name : user.name;
+                user.email = req.body.email ? req.body.email : user.email;
+                user.age = req.body.age ? req.body.age : user.age;
+                user.save(function(err, user){
+                    if(err) {
+                        return res.send('500: Internal Server Error', 500);
+                    }
+                    if(!user) {
+                        return res.end('No such user');
+                    }
+                    return res.render('users/edit', {user: user, flash: 'Saved.'});
                 });
             }
-            if(!user) {
-                return res.json(404, {
-                    message: 'No such user'
-                });
-            }
-            return res.json(user);
-        } else {
-            if(err) {
-                return res.send('500: Internal Server Error', 500);
-            }
-            if(!user) {
-                return res.end('No such user');
-            }
-            return res.render('index', {flash: 'Item deleted.'});
-        }
+        });
     });
-});
-`
+
+    users.delete('/:id', function(req, res) {
+        var id = req.params.id;
+        Model.findOne({_id: id}, function(err, user){
+            if(req.accepts('json')) {
+                if(err) {
+                    return res.json(500, {
+                        message: 'Error getting user.'
+                    });
+                }
+                if(!user) {
+                    return res.json(404, {
+                        message: 'No such user'
+                    });
+                }
+                return res.json(user);
+            } else {
+                if(err) {
+                    return res.send('500: Internal Server Error', 500);
+                }
+                if(!user) {
+                    return res.end('No such user');
+                }
+                return res.render('index', {flash: 'Item deleted.'});
+            }
+        });
+    });
+
 
 ## View generator
 
@@ -207,7 +207,7 @@ editing or creating a single item.
 
 Example of index.js:
 
-`
+
     <h2>Users</h2>
     <p>View users or <a href="edit.html">add</a> a user.</p>
     <% if (flash) { %>
@@ -232,11 +232,11 @@ Example of index.js:
                 </li>
         <% } %>
     </ul>
-`
+
 
 Example of edit.js:
 
-`
+
     <h2>User form</h2>
     <p>
         <% if (user) { %>
@@ -275,7 +275,7 @@ Example of edit.js:
             <% } %>
         </div>
     </div>
-`
+
 
 # ROADMAP
 
