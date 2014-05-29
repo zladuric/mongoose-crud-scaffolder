@@ -53,6 +53,11 @@ args.forEach(function(field) {
 
 console.log('Fields: ', types);
 
+modelGenerator.generateModel(name, pluralName, types, function(err) {
+    if(err) {
+        showUsage('There was a problem generating the model file.');
+    }
+});
 
 function showUsage(err) {
     console.log('Mongoose CRUD Scaffolder version 0.1.0\r\n');
