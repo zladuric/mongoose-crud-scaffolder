@@ -9,7 +9,7 @@ if(!args.length) {
 }
 
 // Take the first arg as model name
-var name = args.shift();
+var name = args.shift().toLowerCase();
 var pluralName = pluralize.plural(name);
 
 console.log('Preparing data for model ', name + ', pluralized: ', pluralName + '.');
@@ -53,10 +53,12 @@ args.forEach(function(field) {
 
 console.log('Fields: ', types);
 
+console.log('Generating mongoose model for ' + name + '...');
 modelGenerator.generateModel(name, pluralName, types, function(err) {
     if(err) {
         showUsage('There was a problem generating the model file.');
     }
+    console.log('... Model file generated.');
 });
 
 function showUsage(err) {
@@ -66,6 +68,7 @@ function showUsage(err) {
     }
     console.log('Example:\r\n    ' + process.argv[1].substr(process.argv[1].lastIndexOf('/') + 1) + ' user firstName lastName age:Number\r\n');
     console.log('Supported data types (case insensitive): ObjectId, String, Boolean, Number, Date, Array.');
+    console.log('The script will overwrite any existing file content for target files.\r\n');
     console.log('For detailed, see https://github.com/zladuric/mongoose-crud-scaffolder.');
     if(err) {
         process.exit(1);
