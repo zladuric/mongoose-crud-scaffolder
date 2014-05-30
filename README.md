@@ -228,7 +228,6 @@ Example of index.js:
                     <span class="field"><%= user.age %></span>
                     <span class="field">
                         <%= link_to('Edit', 'supplies/'+users[i]._id) %>
-                        <form action="/users/<%= users._id %>" method="delete"
                     </span>
                 </li>
         <% } %>

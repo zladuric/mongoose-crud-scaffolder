@@ -3,6 +3,8 @@
 var pluralize = require('pluralize');
 var modelGenerator = require('../lib/model-generator');
 var controllerGenerator = require('../lib/controller-generator');
+var viewsGenerator = require('../lib/view-generator');
+var capitalize = require('../lib/utils').capitalize;
 
 var args = process.argv.slice(2);
 if(!args.length) {
@@ -65,6 +67,12 @@ modelGenerator.generateModel(name, pluralName, types, function(err) {
             showUsage('There was a problem generating the controller file.');
         }
         console.log('Generated controller');
+        viewsGenerator.generateViews(name, pluralName, types, function(err) {
+            if(err) {
+                showUsage('There was a problem generating the views files.');
+            }
+            console.log('Generated views');
+        });
     });
 });
 
@@ -83,6 +91,3 @@ function showUsage(err) {
         process.exit(0);
     }
 }
-function capitalize (str) {
-    return str.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
-};
