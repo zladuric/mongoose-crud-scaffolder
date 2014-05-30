@@ -1,0 +1,34 @@
+{
+  "name": "mongoose-scaffold-crud",
+  "version": "0.1.0",
+  "description": "Crude Mongoose model, REST + CRUD Controller and EJS views generator.",
+  "main": "bin/crud-scaffolder",
+  "bin": {
+    "mongoose-scaffold-crud": "bin/crud-scaffolder.js"
+  },
+  "dependencies": {
+    "pluralize": "^0.0.10"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/zladuric/mongoose-crud-scaffolder.git"
+  },
+  "keywords": [
+    "scaffold",
+    "code-generator",
+    "generator",
+    "crud",
+    "mongoose",
+    "mvc"
+  ],
+  "author": "Zlatko Đurić",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/zladuric/mongoose-crud-scaffolder/issues"
+  },
+  "homepage": "https://github.com/zladuric/mongoose-crud-scaffolder"
+}
