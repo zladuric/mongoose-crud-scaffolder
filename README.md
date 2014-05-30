@@ -42,6 +42,7 @@ Model example:
 
 The controller generated will export an express4 Router setup for the rest route. It will look like this:
 
+    'use strict';
     var users = express.Router();
     var Model = require('../models/model-users.js')
 

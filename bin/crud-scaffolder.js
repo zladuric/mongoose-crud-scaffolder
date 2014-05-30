@@ -2,6 +2,7 @@
 
 var pluralize = require('pluralize');
 var modelGenerator = require('../lib/model-generator');
+var controllerGenerator = require('../lib/controller-generator');
 
 var args = process.argv.slice(2);
 if(!args.length) {
@@ -25,7 +26,7 @@ if(!args.length) {
     });
 }
 
-var allowedTypes = ['objectid', 'string', 'number', 'date', 'boolean', 'array']
+var allowedTypes = ['string', 'number', 'date', 'boolean', 'array']
 // if we get arguments, generate from what we've got.
 args.forEach(function(field) {
     var boundary = field.lastIndexOf(':'); // we support colons in field names. Who cares?
@@ -59,6 +60,12 @@ modelGenerator.generateModel(name, pluralName, types, function(err) {
         showUsage('There was a problem generating the model file.');
     }
     console.log('... Model file generated.');
+    controllerGenerator.generateController(name, pluralName, types, function(err) {
+        if(err) {
+            showUsage('There was a problem generating the controller file.');
+        }
+        console.log('Generated controller');
+    });
 });
 
 function showUsage(err) {
@@ -67,7 +74,7 @@ function showUsage(err) {
         console.log('Error: ', err + '\r\n');
     }
     console.log('Example:\r\n    ' + process.argv[1].substr(process.argv[1].lastIndexOf('/') + 1) + ' user firstName lastName age:Number\r\n');
-    console.log('Supported data types (case insensitive): ObjectId, String, Boolean, Number, Date, Array.');
+    console.log('Supported data types (case insensitive): String, Boolean, Number, Date, Array.');
     console.log('The script will overwrite any existing file content for target files.\r\n');
     console.log('For detailed, see https://github.com/zladuric/mongoose-crud-scaffolder.');
     if(err) {
