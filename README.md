@@ -12,6 +12,7 @@ the future.
 # Usage
 
 `npm install -g mongoose-scaffold-crud
+
 mongoose-scaffold-crud user name email age:number`
 
 It generates a Mongoose model, a REST controller and a simple EJS view.
