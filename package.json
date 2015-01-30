@@ -9,7 +9,6 @@
   "dependencies": {
     "pluralize": "^0.0.10"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

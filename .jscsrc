@@ -1,0 +1,24 @@
+{
+    "preset": "google",
+    "fileExtensions": [ ".js", "jscs" ],
+
+    "requireParenthesesAroundIIFE": true,
+    "maximumLineLength": 120,
+    "validateLineBreaks": "LF",
+    "validateIndentation": 2,
+
+    "disallowKeywords": ["with"],
+    "disallowSpacesInsideObjectBrackets": true,
+    "disallowImplicitTypeConversion": ["string"],
+
+    "safeContextKeyword": "_this",
+
+    "excludeFiles": [
+      "test/**",
+      "node_modules/**",
+      // this file tests that snake cased configs are detected
+      // which violates the camelcase identifier rule
+      // TODO: remove when inline error exclusions exist
+      "test/rules/camel-case-options.js"
+    ]
+}

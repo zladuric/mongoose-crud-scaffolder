@@ -1,0 +1,26 @@
+{
+  //see doc http://www.jshint.com/docs/options/
+  //!!! this file is only for IDE integration, "grunt test" uses the configuration in Gruntfile.js !!!
+
+  //enforcing options
+  "curly": true, //force moustaches around blocks, even if consisting only one statements
+  "indent": 2, //force 2 space indentation
+  "newcap": true, //force constructor names to be capitalized
+  "noempty": true, //prohibit empty blocks
+  "undef": true, //warn on usage of undefined variables
+  "unused": true, //warn on unused variables
+  "trailing": true, //prohibit trailing whitespaces at the end of line
+  "eqeqeq": true, //force triple equals ===
+  "eqnull": true, //allow double equals == when comparing to null
+  "expr": true, //allow calling functions without assigning to variable
+  "sub": true, //allow foo['bar'] instead of foo.bar
+
+  //environment options
+  "node": true,
+  "predef": [
+
+    /* Mocha */
+    "describe", "it", "before", "after"
+  ]
+
+}
