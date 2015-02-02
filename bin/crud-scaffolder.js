@@ -58,7 +58,7 @@ args.forEach(function(field) {
 });
 function getFieldType (fieldType) {
 
-    if (fieldType 1== 'mixed') {
+    if (fieldType !== 'mixed') {
 
         return capitalize(fieldType.toLowerCase())
     } else {
@@ -70,17 +70,17 @@ function getFieldType (fieldType) {
 console.log('Fields: ', types);
 
 console.log('Generating mongoose model for ' + modelName + '...');
-modelGenerator.generateModel(name, pluralName, types, function(err) {
+modelGenerator.generateModel(modelName, pluralName, types, function(err) {
   if (err) {
     showUsage('There was a problem generating the model file.');
   }
   console.log('... Model file generated.');
-  controllerGenerator.generateController(name, pluralName, types, function(err) {
+  controllerGenerator.generateController(modelName, pluralName, types, function(err) {
     if (err) {
       showUsage('There was a problem generating the controller file.');
     }
     console.log('Generated controller');
-    viewsGenerator.generateViews(name, pluralName, types, function(err) {
+    viewsGenerator.generateViews(modelName, pluralName, types, function(err) {
       if (err) {
         showUsage('There was a problem generating the views files.');
       }
