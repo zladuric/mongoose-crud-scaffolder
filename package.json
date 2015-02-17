@@ -1,6 +1,6 @@
 {
   "name": "mongoose-scaffold-crud",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Crude Mongoose model, REST + CRUD Controller and EJS views generator.",
   "main": "bin/crud-scaffolder",
   "bin": {

@@ -6,8 +6,10 @@ because the authors' google-foo is weakening (even though he knew he can't be
 the only one needing this, there was nothing on the interwebs to help him out)
 and he needed to kick-off another Express/Mongoose project.
 
-The REST controller is built for Express 4, but support may be added for 3 in
-the future.
+The REST controller is built for Express 4, support may be added for 3 in
+the future but it's not planned.
+
+_Note: the project was built for specific needs, so it did not look into package.json etc - just generated simple files to get me started. This is not a fancy Yeoman generator that does it all._
 
 # Usage
 
@@ -288,7 +290,10 @@ v0.1.0 - just get a dumb scaffolder working.
 - views generator: create a views/<model>/index.js and views/<model>/edit.ejs
 - views generator: generate HTML in there that will show a list of models
 
-v0.2.0 Get it right
+v0.2.0 - Fix bugs
+- some bugs and stuff fixed
+
+v0.3.0 Get it right
 - fix the project name bug (mongoose-scaffold-crud is a dumb name)
 - gather feedback on all the stupid things in code
 - maybe take more arguments (ie generate controller only, accept
